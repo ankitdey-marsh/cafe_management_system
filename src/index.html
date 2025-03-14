@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .food-item, .cart-item { cursor: pointer; margin: 10px; padding: 10px; border: 1px solid #ddd; display: flex; justify-content: space-between; width: 300px; }
+        button { margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Food Store</h1>
+    <div id="food-list"></div>
+
+    <h2>Cart</h2>
+    <ul id="cart"></ul>
+
+    <script>
+        const foodList = [
+            { _id: "1", name: "Greek Salad", price: 12 },
+            { _id: "2", name: "Veg Salad", price: 18 },
+            { _id: "3", name: "Clover Salad", price: 16 },
+            { _id: "4", name: "Chicken Salad", price: 24 },
+            { _id: "5", name: "Lasagna Rolls", price: 14 },
+            { _id: "6", name: "Peri Peri Rolls", price: 12 },
+            { _id: "7", name: "Chicken Rolls", price: 20 },
+            { _id: "8", name: "Veg Rolls", price: 15 },
+            { _id: "9", name: "Ripple Ice Cream", price: 14 },
+            { _id: "10", name: "Fruit Ice Cream", price: 22 },
+            { _id: "11", name: "Jar Ice Cream", price: 10 },
+            { _id: "12", name: "Vanilla Ice Cream", price: 12 },
+            { _id: "13", name: "Chicken Sandwich", price: 12 },
+            { _id: "14", name: "Vegan Sandwich", price: 18 },
+            { _id: "15", name: "Grilled Sandwich", price: 16 },
+            { _id: "16", name: "Bread Sandwich", price: 24 },
+            { _id: "17", name: "Cup Cake", price: 14 },
+            { _id: "18", name: "Vegan Cake", price: 12 },
+            { _id: "19", name: "Butterscotch Cake", price: 20 },
+            { _id: "20", name: "Sliced Cake", price: 15 },
+            { _id: "21", name: "Garlic Mushroom", price: 14 },
+            { _id: "22", name: "Fried Cauliflower", price: 22 },
+            { _id: "23", name: "Mix Veg Pulao", price: 10 },
+            { _id: "24", name: "Rice Zucchini", price: 12 },
+            { _id: "25", name: "Cheese Pasta", price: 12 },
+            { _id: "26", name: "Tomato Pasta", price: 18 },
+            { _id: "27", name: "Creamy Pasta", price: 16 },
+            { _id: "28", name: "Chicken Pasta", price: 24 },
+            { _id: "29", name: "Butter Noodles", price: 14 },
+            { _id: "30", name: "Veg Noodles", price: 12 },
+            { _id: "31", name: "Somen Noodles", price: 20 },
+            { _id: "32", name: "Cooked Noodles", price: 15 }
+        ];
+
+        const foodContainer = document.getElementById("food-list");
+        const cartContainer = document.getElementById("cart");
+
+        function displayFoodItems() {
+            foodList.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("food-item");
+                div.innerHTML = `${item.name} - $${item.price} <button onclick='addToCart(${JSON.stringify(item)})'>Add</button>`;
+                foodContainer.appendChild(div);
+            });
+        }
+
+        function addToCart(item) {
+            fetch("http://127.0.0.1:5000/add-to-cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(item)
+            }).then(() => loadCart());
+        }
+
+        function loadCart() {
+    fetch("http://127.0.0.1:5000/cart")
+        .then(res => res.json())
+        .then(data => {
+            cartContainer.innerHTML = "";
+            data.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} - $${item.price}`;
+
+                // Remove button for each item
+                const removeBtn = document.createElement("button");
+                removeBtn.textContent = "Remove";
+                removeBtn.onclick = () => removeFromCart(item.name);
+
+                li.appendChild(removeBtn);
+                cartContainer.appendChild(li);
+            });
+        });
+}
+
+// Corrected DELETE request for removing items
+function removeFromCart(name) {
+    fetch(`http://127.0.0.1:5000/cart/${encodeURIComponent(name)}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(() => loadCart())  // Refresh cart after deletion
+    .catch(err => console.error("Error removing item:", err));
+}
+
+
+        displayFoodItems();
+        loadCart();
+    </script>
+</body>
+</html>
