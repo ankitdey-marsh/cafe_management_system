@@ -34,5 +34,5 @@ The application is built using the following technologies:
 React:JavaScript library for building user interfaces.<br>
 HTML: Markup language for structuring web pages.<br>
 CSS: Stylesheet language for styling web pages.<br>
-Flask: For backend api routing
+Flask: For backend api routing \
 Mongo Atlas: As the database
