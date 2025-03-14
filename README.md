@@ -6,10 +6,6 @@ This React application is a restaurant platform where users can explore menu ite
 ```flask run``` - To start the backend server
 ## Features
 
- Sign-in Page: Users can sign in to access additional features <br>
-
-![image](https://github.com/Sumithra49/Tomato-Food-delivery/assets/141726527/bce3b2c2-c355-41ef-9ab9-64372d55c373)
-
  Menu Exploration:Users can explore the restaurant's menu items categorized by different food types.<br>
  ![image](https://github.com/Sumithra49/Tomato-Food-delivery/assets/141726527/bf7d10dc-fec3-4090-8329-8dc7b0488fee)
 
