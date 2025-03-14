@@ -2,7 +2,8 @@
 React Restaurant Application
 This React application is a restaurant platform where users can explore menu items, add items to their cart, place orders, and proceed to checkout. It features a responsive design and utilizes React Router for navigation.
 ## Run
-npm run dev
+```npm run dev``` - To locally host the frontend
+```flask run``` - To start the backend server
 ## Features
 
  Sign-in Page: Users can sign in to access additional features <br>
